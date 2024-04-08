@@ -7,6 +7,6 @@ This tool is Python-based and runs with Python, but it `can generate files with 
 
 ## how to use
 
-1. Install `pip install RismTemplate` and install the `rism syntax` extension in `VS Code`, a syntax highlighter for predefined templates, enhancing readability and easing the coding process.
+1. Install using the command  `pip install RismTemplate` and install the `rism syntax` extension in `VS Code`, an  auto-completion and syntax highlighter for predefined templates, enhancing readability and easing the coding process.
 2. Ensure your template files end with `.rism` extension for compatibility and to avoid errors.
 3. Check `example.py` for practical usage examples.
