@@ -1,14 +1,16 @@
-from RismTemplate import ReactaLaraGenerator
+from RismTemplate import ReactaLaraGenerator, TemplateProcessor
 
-
-reacta = ReactaLaraGenerator()
-
-reacta.set_template("index", "testing.rism")
 
 data = {
     'name': 'User',
     'fields': ['name', 'email'],
 }
 
-if __name__ == "__main__":
-    reacta.make_page("index", data)
+# testing 1
+custom = TemplateProcessor()
+custom.render("testing.rism", "result.someextention", data)
+
+# testing 2
+reacta = ReactaLaraGenerator()
+reacta.set_template("index", "testing2.rism")
+reacta.make_page("index", data)

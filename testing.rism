@@ -1,154 +1,36 @@
-// component
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import PrimaryButton from "@/Components/PrimaryButton";
-import Pagination from "@/Components/Pagination";
-import NotificationBox from "@/Components/NotificationBox";
-// lib
-import { Head, usePage, useForm, Link } from "@inertiajs/react";
-import { useEnc } from "@/Lib/Encryptor";
+This is example how to write predefined template
 
-export default function {{ name|capitalize }}({ {{ name|lower|pluralize }}, search }) {
-    const { auth, flash, cryptojskey } = usePage().props;
-    const { data, setData, get, processing } = useForm({
-        search: search || "",
-    });
-    const { delete: destroy } = useForm();
+==== variable ====
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        get(route("{{ name|lower }}.index"), {
-            preserveState: true,
-        });
-    };
+Hello {{ name }}
 
-    const handleDelete = (id) => {
-        destroy(route("{{ name|lower }}.destroy", { id }));
-    };
 
-    return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <div className="flex flex-col md:flex-row justify-between  md:items-start">
-                    <div className="md:flex md:items-center md:justify-start">
-                        <Link
-                            href={route("{{ name|lower }}.create")}
-                            className="order-2 md:order-2"
-                        >
-                            <PrimaryButton className="mb-2 md:mb-0 md:mr-4">
-                                Add
-                            </PrimaryButton>
-                        </Link>
-                        <h2 className="order-1 md:order-2 font-semibold text-xl text-gray-800 leading-tight mb-2 md:mb-0">
-                            {{ name|capitalize|pluralize }} Table
-                        </h2>
-                    </div>
+==== if logic ====
 
-                    <form onSubmit={handleSearch} className="">
-                        <input
-                            type="text"
-                            value={data.search}
-                            onChange={(e) => setData("search", e.target.value)}
-                            placeholder="Search {{ name|lower|pluralize }}..."
-                            className="border rounded py-1 mr-2"
-                        />
-                        <PrimaryButton className="" disabled={processing}>
-                            search
-                        </PrimaryButton>
-                    </form>
-                </div>
-            }
-        > 
-            <Head title="{{ name|capitalize }}" />
+{% if name %}
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full leading-normal">
-                                <thead>
-                                    <tr>
-                                        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            No
-                                        </th>
-                                        {% if image %}
-                                        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            Image
-                                        </th>
-                                        {% endif %}
-                                        {% for field in fields %}
-                                        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {{ field|capitalize }}
-                                        </th>
-                                        {% endfor %}
-                                        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    { {{ name|lower|pluralize }} &&
-                                        {{ name|lower|pluralize }}.data.map(({{ name|lower|singularize }}, i) => (
-                                            <tr key={ {{ name|lower|singularize }}.id}>
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    {({{ name|lower|pluralize }}.current_page -
-                                                        1) *
-                                                        {{ name|lower|pluralize }}.per_page +
-                                                        i +
-                                                        1}
-                                                </td>
-                                                {% if image %}
-                                                <td className="py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <img src={ {{ name|lower|singularize }}.image} width="100px" />
-                                                </td>
-                                                {% endif %}
-                                                {% for field in fields %}
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    { {{ name|lower|singularize }}.{{ field|lower }}}
-                                                </td>
-                                                {% endfor %}
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm min-w-[166px]">
-                                                    <Link
-                                                        href={route(
-                                                            "{{ name|lower|singularize }}.show",
-                                                            { id: useEnc({{ name|lower|singularize }}.id, cryptojskey) }
-                                                        )}
-                                                        className="text-gray-600 hover:text-blue-900 mr-3"
-                                                    >
-                                                        Show
-                                                    </Link>
-                                                    <Link
-                                                        href={route(
-                                                            "{{ name|lower|singularize }}.edit",
-                                                            { id: useEnc({{ name|lower|singularize }}.id, cryptojskey) }
-                                                        )}
-                                                        className="text-blue-600 hover:text-blue-900 mr-3"
-                                                    >
-                                                        Edit
-                                                    </Link>
-                                                    <button
-                                                        className="text-red-600 hover:text-red-900"
-                                                        onClick={() =>
-                                                            handleDelete(
-                                                                useEnc({{ name|lower|singularize }}.id, cryptojskey)
-                                                            )
-                                                        }
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+I am a {{ name }}
 
-                    <Pagination data={ {{ name|lower|pluralize }} } />
-                </div>
-            </div>
+{% else %}
 
-            <NotificationBox message={flash.message} />
-        </AuthenticatedLayout>
-    );
-}
+not found
+
+{% endif %}
+
+
+==== for ====
+
+Fields :
+{% for field in fields %}
+- {{ field }}
+{% endfor %}
+
+
+==== filter ====
+
+{{ name|lower|capitalize|pluralize }}
+
+
+"""
+Essentially, this code uses Jinja2 syntax. You can visit its documentation for more information.
+"""

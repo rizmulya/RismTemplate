@@ -2,6 +2,11 @@ from RismTemplate import TemplateProcessor, LaravelGenerator, ReactaLaraGenerato
 
 
 """
+Example predefined template look at the testing.rism
+"""
+
+
+"""
 Example custom
 
 For `flexible customization` of input files, output files, and data
